@@ -34,11 +34,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/flunGit/webauthn-browser.git"
+    "url": "git+https://github.com/OpenFlun/webauthn-browser.git"
   },
   "homepage": "https://www.npmjs.com/package/@flun/webauthn-browser#readme",
   "bugs": {
-    "url": "https://github.com/flunGit/webauthn-browser/issues"
+    "url": "https://github.com/OpenFlun/webauthn-browser/issues"
   },
   "license": "ISC",
   "dependencies": {},

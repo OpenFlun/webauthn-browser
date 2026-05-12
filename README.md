@@ -553,7 +553,7 @@ app.post('/api/register/complete', async (req, res) => {
    verification = await verifyRegistrationResponse({
     response,
     expectedChallenge,
-    expectedOrigin: 'http://localhost:3000',
+    expectedOrigin: 'http://localhost:7296',
     expectedRPID: 'localhost',
   });
   if (verification.verified) {
@@ -571,13 +571,13 @@ app.post('/api/register/complete', async (req, res) => {
 
 ## 许可证
 
-ISC © [flun](https://github.com/flunGit)
+ISC © [flun](https://github.com/OpenFlun)
 
 ---
 
 ## 相关链接
 
-- [GitHub 仓库](https://github.com/flunGit/@flun/webauthn-browser)
+- [GitHub 仓库](https://github.com/OpenFlun/webauthn-browser)
 - [npm 包页面](https://www.npmjs.com/package/@flun/webauthn-browser)
 - [配套后端库 @flun/webauthn-server](https://www.npmjs.com/package/@flun/webauthn-server)
 - [W3C WebAuthn 规范](https://w3c.github.io/webauthn/)
