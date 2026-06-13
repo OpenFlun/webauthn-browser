@@ -6,9 +6,10 @@
 .idea/
 .npmrc
 node_modules/
-*.ps1
+*.bat
 *.bak
 *.tgz
 *.tar.gz
+*.ps1
 package-lock.json
 维护.md
