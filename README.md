@@ -10,6 +10,8 @@
 ## 目录
 
 - [目录](#目录)
+- [配置](#配置)
+  - [允许安装脚本执行](#允许安装脚本执行)
 - [安装](#安装)
   - [NPM 模块方式](#npm-模块方式)
   - [UMD 全局方式](#umd-全局方式)
@@ -50,7 +52,7 @@
 ```json
 {
   "allowScripts": {
-    "@flun/windows": true
+    "@flun/webauthn-browser": true
     // 如果依赖的其它包（如 bcrypt、electron-winstaller 等）也有脚本,请按需添加,格式相同
   }
 }
