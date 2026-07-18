@@ -3,7 +3,7 @@
 ![WebAuthn](https://img.shields.io/badge/WebAuthn-Browser_Simplified-blueviolet?style=for-the-badge&logo=WebAuthn)
 [![npm (scoped)](https://img.shields.io/npm/v/@flun/webauthn-browser?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/@flun/webauthn-browser)
 
-**@flun/webauthn-browser** 是一个专为浏览器环境设计的 WebAuthn（含 Passkeys）前端工具库,基于 [@simplewebauthn/browser](https://simplewebauthn.dev/) 核心逻辑重构并增强,它封装了 `navigator.credentials` API 的复杂细节,提供简洁的 Promise 风格接口,并内置了丰富的错误处理与 Base64URL 编解码工具,并且新增在Windows下优先调用底层Windows hello 注册/认证(避免环境干扰);
+**@flun/webauthn-browser** 是一个专为浏览器环境设计的 WebAuthn（含 Passkeys）前端工具库,基于 [@simplewebauthn/browser](https://simplewebauthn.dev/) 核心逻辑重构并增强,它封装了 `navigator.credentials` API 的复杂细节,提供简洁的 Promise 风格接口,并内置了丰富的错误处理与 Base64URL 编解码工具,并且新增在Windows下优先调用底层Windows hello 注册/认证(避免环境干扰与安全);
 
 本包以 **ESM** 编写,同时提供 **UMD** 打包产物,可通过 npm 模块方式或 `<script>` 全局方式引入,兼容现代浏览器及部分旧版环境;
 
@@ -115,7 +115,7 @@ const { startRegistration, startAuthentication } = require('@flun/webauthn-brows
   通过 `WebAuthnAbortService` 在必要时取消进行中的认证/注册操作;
 
 - ✅ **Windows hello 底层调用**
-   Windows下优先调用底层Windows hello 注册/认证(避免环境干扰);
+   Windows下优先调用底层Windows hello 注册/认证(避免环境干扰与安全);
 ---
 
 ## 快速开始
