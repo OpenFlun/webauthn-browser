@@ -1,6 +1,7 @@
 import { base64URLStringToBuffer, bufferToBase64URLString } from './base64urlAndBuffer.js';
 import { _browserSupportsWebAuthnInternals, browserSupportsWebAuthn } from './browserSupportsWebAuthn.js';
 import { _browserSupportsWebAuthnAutofillInternals, browserSupportsWebAuthnAutofill } from './browserSupportsWebAuthnAutofill.js';
+import { isWindows, extractBase64Id, normalizeOptions } from './common.js';
 import { identifyAuthenticationError } from './identifyAuthenticationError.js';
 import { identifyRegistrationError } from './identifyRegistrationError.js';
 import { isValidDomain } from './isValidDomain.js';
@@ -47,6 +48,20 @@ declare module './browserSupportsWebAuthn.js' {
  */
 declare module './browserSupportsWebAuthnAutofill.js' {
     export * from './browserSupportsWebAuthnAutofill.js';
+}
+
+// =================================== common.js ===================================
+/**
+ * ```js
+ * // 文件导出内容
+ * const isWindows=(); // 当前操作系统是否为 Windows
+ * extractBase64Id();  // 从包含凭证 ID 的对象中提取 base64url 格式的 ID 字符串 支持多种 ID 表示形式
+ * normalizeOptions(); // 规范化传入的 options 对象,兼容旧调用方式
+ * ```
+ * >查看定义:@see {@link isWindows}、{@link extractBase64Id}、{@link normalizeOptions}
+ */
+declare module './common.js' {
+    export * from './common.js';
 }
 
 // ================================ identifyAuthenticationError.js ================================
@@ -162,6 +177,7 @@ declare module './webAuthnError.js' {
  * // 常量
  * const _browserSupportsWebAuthnInternals={};         // 测试期间对返回值进行桩（stub）处理
  * const _browserSupportsWebAuthnAutofillInternals={}; // 测试期间模拟返回值;
+ * const isWindows=();                                 // 当前操作系统是否为 Windows
  * const WebAuthnAbortService = new BaseWebAuthnAbortService(); // 服务单例,用于确保同一时间只有一个 WebAuthn 仪式处于活动状态;
  *
  * // 函数
@@ -169,6 +185,9 @@ declare module './webAuthnError.js' {
  * bufferToBase64URLString();                          // 将给定的数组缓冲区转换为 Base64URL 编码的字符串;
  * browserSupportsWebAuthn();                          // 判断当前浏览器是否支持 WebAuthn
  * browserSupportsWebAuthnAutofill();                  // 判断浏览器是否支持条件式UI;
+ * isWindows();                                        // 检测当前操作系统是否为 Windows
+ * extractBase64Id();                                  // 从包含凭证 ID 的对象中提取 base64url 格式的 ID 字符串 支持多种 ID 表示形式
+ * normalizeOptions();                                 // 规范化传入的 options 对象,兼容旧调用方式
  * identifyAuthenticationError();                      // 尝试推断调用 `navigator.credentials.get()` 后引发错误的原因;
  * identifyRegistrationError();                        // 尝试推断调用 `navigator.credentials.create()` 后引发错误的原因;
  * isValidDomain();                                    // 判断主机名是否符合验证规范;
@@ -181,17 +200,19 @@ declare module './webAuthnError.js' {
  * ```
  * >查看定义:@see
  * - 类型 {@link WebAuthnErrorCode}
- * - 常量 {@link _browserSupportsWebAuthnInternals}、{@link _browserSupportsWebAuthnAutofillInternals}、{@link WebAuthnAbortService}
+ * - 常量 {@link _browserSupportsWebAuthnInternals}、{@link _browserSupportsWebAuthnAutofillInternals}、
+ * {@link WebAuthnAbortService}、{@link isWindows}
  * - 函数 {@link base64URLStringToBuffer}、{@link bufferToBase64URLString}、 {@link browserSupportsWebAuthn}、
- * {@link browserSupportsWebAuthnAutofill}、{@link identifyAuthenticationError}、{@link identifyRegistrationError}、
- * {@link isValidDomain}、{@link platformAuthenticatorIsAvailable}、{@link toAuthenticatorAttachment}、
- * {@link toPublicKeyCredentialDescriptor}
+ * {@link browserSupportsWebAuthnAutofill}、{@link extractBase64Id}、{@link normalizeOptions}、
+ * {@link identifyAuthenticationError}、{@link identifyRegistrationError}、{@link isValidDomain}、
+ * {@link platformAuthenticatorIsAvailable}、{@link toAuthenticatorAttachment}、{@link toPublicKeyCredentialDescriptor}
  * - 类 {@link WebAuthnError}
  */
 declare module './index.js' {
     export * from './base64urlAndBuffer.js';
     export * from './browserSupportsWebAuthn.js';
     export * from './browserSupportsWebAuthnAutofill.js';
+    export * from './common.js';
     export * from './identifyAuthenticationError.js';
     export * from './identifyRegistrationError.js';
     export * from './isValidDomain.js';

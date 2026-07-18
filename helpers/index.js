@@ -1,6 +1,7 @@
 export * from './base64urlAndBuffer.js';
 export * from './browserSupportsWebAuthn.js';
 export * from './browserSupportsWebAuthnAutofill.js';
+export * from './common.js';
 export * from './identifyAuthenticationError.js';
 export * from './identifyRegistrationError.js';
 export * from './isValidDomain.js';

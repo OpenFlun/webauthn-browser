@@ -1,15 +1,17 @@
 import {
     bufferToBase64URLString, base64URLStringToBuffer, browserSupportsWebAuthn, browserSupportsWebAuthnAutofill,
-    identifyAuthenticationError, toAuthenticatorAttachment, toPublicKeyCredentialDescriptor, WebAuthnAbortService
+    isWindows, extractBase64Id, normalizeOptions, identifyAuthenticationError, toAuthenticatorAttachment,
+    toPublicKeyCredentialDescriptor, WebAuthnAbortService
 } from '../helpers/index.js';
 
 /**
  * 通过 WebAuthn 断言开始身份验证器“登录”
- * - 查看定义:@see {@link startAuthentication}
+ * > 查看定义:@see {@link startAuthentication}
  * @param {Object} options - 配置选项
  * @param {Object} options.optionsJSON - 来自 **@flun/webauthn-server** 的 `generateAuthenticationOptions()` 的输出
  * @param {boolean} [options.useBrowserAutofill=false] - 初始化条件式 UI,以支持通过浏览器自动填充提示进行登录
  * @param {boolean} [options.verifyBrowserAutofillInput=true] - 当 `useBrowserAutofill` 为 `true` 时,确保存在合适的 `<input>` 元素
+ * @param {string} [options.accountId] - （可选）手动指定账号 ID,用于 Windows 原生认证时作为凭证标识,若未提供则从 `optionsJSON.allowCredentials` 中提取
  * @returns {Promise<{
  *   id: string,
  *   rawId: string,
@@ -21,48 +23,50 @@ import {
  *   },
  *   type: string,
  *   clientExtensionResults: AuthenticationExtensionsClientOutputs,
- *   authenticatorAttachment: string
+ *   authenticatorAttachment: string,
+ *   native?: boolean  // 当在 Windows 下启用原生流程时返回 true
  * }>}
  */
-const startAuthentication = async options => {
-    // 有意检查旧的调用结构,以警告不正确的 API 调用
-    if (!options.optionsJSON && options.challenge) {
-        console.warn("startAuthentication() 调用方式不正确；它将尝试使用提供的选项继续执行,但应重构此调用以使用预期的调用结构；");
-        options = { optionsJSON: options }; // 将作为位置参数传入的 options 重新赋值给预期变量
-    }
-    if (!browserSupportsWebAuthn()) throw new Error('此浏览器不支持 WebAuthn');
+const startAuthentication = async (options) => {
+    const normalized = normalizeOptions(options);
+    if (!normalized) throw new Error('startAuthentication 需要传入包含 optionsJSON 或 challenge 的对象');
+    options = normalized;
 
-    const { optionsJSON, useBrowserAutofill = false, verifyBrowserAutofillInput = true } = options;
-    // 需要避免传递空数组,以免阻止公钥的检索
+    const { optionsJSON, useBrowserAutofill = false, verifyBrowserAutofillInput = true, accountId: userId } = options;
+    // 若当前系统为 Windows,则直接返回模拟凭证数据,应用层可据此识别并调用底层 Windows Hello 接口;
+    if (isWindows) {
+        // 优先使用显式传入的 accountId,否则从 allowCredentials 中提取第一个凭证的 ID
+        const accountId = userId || extractBase64Id(optionsJSON?.allowCredentials?.[0]);
+        if (!accountId) throw new Error('未找到硬件凭证 ID,请确认已注册设备或使用备用码登录');
+        return {
+            id: accountId,
+            rawId: bufferToBase64URLString(base64URLStringToBuffer(accountId)),
+            response: { authenticatorData: '', clientDataJSON: '', signature: '', userHandle: '' },
+            type: 'public-key',
+            clientExtensionResults: {},
+            authenticatorAttachment: 'platform',
+            native: true   // 标记为原生流程
+        };
+    }
+    // 标准 WebAuthn 认证流程
+    if (!browserSupportsWebAuthn()) throw new Error('此浏览器不支持 WebAuthn');
     let allowCredentials;
     if (optionsJSON.allowCredentials?.length !== 0)
         allowCredentials = optionsJSON.allowCredentials?.map(toPublicKeyCredentialDescriptor);
 
-    // 在将凭证传递给 navigator 之前，需要将某些值转换为 Uint8Array
-    const publicKey = { ...optionsJSON, challenge: base64URLStringToBuffer(optionsJSON.challenge), allowCredentials }
-        , getOptions = {}; // 为 `.get()` 准备选项
-
-    /**
-     * 设置页面，通过浏览器的输入自动填充机制提示用户选择用于身份验证的凭证；
-     */
+    const publicKey = { ...optionsJSON, challenge: base64URLStringToBuffer(optionsJSON.challenge), allowCredentials },
+        getOptions = {};
     if (useBrowserAutofill) {
         if (!(await browserSupportsWebAuthnAutofill())) throw Error('浏览器不支持 WebAuthn 自动填充');
 
-        // 检查是否存在 `autocomplete` 属性中包含 "webauthn" 的 <input>
         const eligibleInputs = document.querySelectorAll("input[autocomplete$='webauthn']");
-
-        // WebAuthn 自动填充要求至少有一个有效的输入框
         if (eligibleInputs.length < 1 && verifyBrowserAutofillInput)
             throw Error('未检测到任何 `autocomplete` 属性中包含 "webauthn"（作为唯一值或最后一个值）的 <input> 元素');
 
-        // 截至 typescript@4.6.3，`CredentialMediationRequirement` 尚不识别 "conditional"
-        getOptions.mediation = 'conditional', publicKey.allowCredentials = []; // 条件式 UI 要求 allowCredentials 为空列表
+        getOptions.mediation = 'conditional', publicKey.allowCredentials = [];
     }
+    getOptions.publicKey = publicKey, getOptions.signal = WebAuthnAbortService.createNewAbortSignal();
 
-    getOptions.publicKey = publicKey; // 最终确定选项
-    getOptions.signal = WebAuthnAbortService.createNewAbortSignal(); // 设置取消此请求的能力,以防用户尝试另一个请求
-
-    // 等待用户完成断言
     let credential;
     try {
         credential = await navigator.credentials.get(getOptions);
@@ -75,7 +79,6 @@ const startAuthentication = async options => {
     let userHandle = undefined;
     if (response.userHandle) userHandle = bufferToBase64URLString(response.userHandle);
 
-    // 将值转换为 base64，以便更容易发送回服务器
     return {
         id,
         rawId: bufferToBase64URLString(rawId),
@@ -84,11 +87,8 @@ const startAuthentication = async options => {
             clientDataJSON: bufferToBase64URLString(response.clientDataJSON),
             signature: bufferToBase64URLString(response.signature),
             userHandle,
-        },
-        type,
-        clientExtensionResults: credential.getClientExtensionResults(),
+        }, type, clientExtensionResults: credential.getClientExtensionResults(),
         authenticatorAttachment: toAuthenticatorAttachment(credential.authenticatorAttachment),
     };
-}
-
+};
 export { startAuthentication };
