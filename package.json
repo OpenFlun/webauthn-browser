@@ -29,8 +29,8 @@
     "methods/",
     "types/",
     "LICENSE",
-    "README.md",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "README.md"
   ],
   "repository": {
     "type": "git",
