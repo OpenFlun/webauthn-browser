@@ -1,6 +1,6 @@
 {
   "name": "@flun/webauthn-browser",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "WebAuthn 前端库,提供简单易用的接口来处理 WebAuthn 认证流程,支持 Passkeys 和 FIDO2 标准;",
   "keywords": [
     "typescript",
