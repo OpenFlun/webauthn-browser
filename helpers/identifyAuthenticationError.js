@@ -8,7 +8,7 @@ import { WebAuthnError } from './webAuthnError.js';
  * @param {Object} params - 参数对象
  * @param {Error|DOMException} params.error - 原始错误对象
  * @param {CredentialRequestOptions} params.options - navigator.credentials.get() 传入的选项
- * @returns {Error|WebAuthnError} 解析后的错误对象（WebAuthnError 或原始错误）
+ * @returns {Error|WebAuthnError} 解析后的错误对象(WebAuthnError 或原始错误)
  */
 const identifyAuthenticationError = ({ error, options }) => {
     const { publicKey } = options;
@@ -21,7 +21,7 @@ const identifyAuthenticationError = ({ error, options }) => {
     }
     else if (error.name === 'NotAllowedError')
         /**
-         * 直接传递错误，平台对该错误的定义超出了规范范围，我们不想覆盖可能更有用的错误消息；
+         * 直接传递错误,平台对该错误的定义超出了规范范围,我们不想覆盖可能更有用的错误消息;
          */
         return new WebAuthnError({ message: error.message, code: 'ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY', cause: error });
     else if (error.name === 'SecurityError') {
@@ -34,14 +34,15 @@ const identifyAuthenticationError = ({ error, options }) => {
         else if (publicKey.rpId !== effectiveDomain)
             // https://www.w3.org/TR/webauthn-2/#sctn-discover-from-external-source (第 6 步)
             return new WebAuthnError({
-                message: `信赖方 ID“${publicKey.rpId}”对此域名无效`, code: 'ERROR_INVALID_RP_ID', cause: error
+                message: `信赖方 ID"${publicKey.rpId}"对此域名无效`, code: 'ERROR_INVALID_RP_ID', cause: error
             });
     }
     else if (error.name === 'UnknownError')
         // https://www.w3.org/TR/webauthn-2/#sctn-op-get-assertion (第 1 步)
         // https://www.w3.org/TR/webauthn-2/#sctn-op-get-assertion (第 12 步)
         return new WebAuthnError({
-            message: '身份验证器无法处理指定的选项或创建新的断言签名', code: 'ERROR_AUTHENTICATOR_GENERAL_ERROR', cause: error
+            message: '身份验证器无法处理指定的选项或创建新的断言签名',
+            code: 'ERROR_AUTHENTICATOR_GENERAL_ERROR', cause: error
         });
 
     return error;

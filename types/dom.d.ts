@@ -1,15 +1,15 @@
 /**
- * 请勿修改这些文件！
+ * 请勿修改这些文件!
  *
- * 这些文件是从 **types** 包复制而来的;要更新此文件,请修改相应包中的文件，
- * 然后从 monorepo 根目录运行命令： deno task codegen:types
+ * 这些文件是从 **types** 包复制而来的;要更新此文件,请修改相应包中的文件,
+ * 然后从 monorepo 根目录运行命令: deno task codegen:types
  */
 /**
  * 由 typescript@5.6.3 生成
- * 要重新生成,请从包根目录运行命令： deno task extract-dom-types
+ * 要重新生成,请从包根目录运行命令: deno task extract-dom-types
  */
 /**
- * 仅在安全上下文（secure contexts）中可用。
+ * 仅在安全上下文(secure contexts)中可用;
  *
  * [MDN 参考](https://developer.mozilla.org/docs/Web/API/AuthenticatorAssertionResponse)
  */
@@ -22,7 +22,7 @@ export interface AuthenticatorAssertionResponse extends AuthenticatorResponse {
     readonly userHandle: ArrayBuffer | null;
 }
 /**
- * 仅在安全上下文（secure contexts）中可用。
+ * 仅在安全上下文(secure contexts)中可用;
  *
  * [MDN 参考](https://developer.mozilla.org/docs/Web/API/AuthenticatorAttestationResponse)
  */
@@ -50,13 +50,13 @@ export interface AuthenticatorSelectionCriteria {
     userVerification?: UserVerificationRequirement;
 }
 /**
- * 当前上下文中可用的基本加密功能。它允许访问密码学强随机数生成器和加密原语。
+ * 当前上下文中可用的基本加密功能;它允许访问密码学强随机数生成器和加密原语;
  *
  * [MDN 参考](https://developer.mozilla.org/docs/Web/API/Crypto)
  */
 export interface Crypto {
     /**
-     * 仅在安全上下文（secure contexts）中可用。
+     * 仅在安全上下文(secure contexts)中可用;
      *
      * [MDN 参考](https://developer.mozilla.org/docs/Web/API/Crypto/subtle)
      */
@@ -64,14 +64,14 @@ export interface Crypto {
     /** [MDN 参考](https://developer.mozilla.org/docs/Web/API/Crypto/getRandomValues) */
     getRandomValues<T extends ArrayBufferView | null>(array: T): T;
     /**
-     * 仅在安全上下文（secure contexts）中可用。
+     * 仅在安全上下文(secure contexts)中可用;
      *
      * [MDN 参考](https://developer.mozilla.org/docs/Web/API/Crypto/randomUUID)
      */
     randomUUID(): `${string}-${string}-${string}-${string}-${string}`;
 }
 /**
- * 仅在安全上下文（secure contexts）中可用。
+ * 仅在安全上下文(secure contexts)中可用;
  *
  * [MDN 参考](https://developer.mozilla.org/docs/Web/API/PublicKeyCredential)
  */
@@ -111,7 +111,7 @@ export interface PublicKeyCredentialUserEntity extends PublicKeyCredentialEntity
     displayName: string, id: BufferSource;
 }
 /**
- * 仅在安全上下文（secure contexts）中可用。
+ * 仅在安全上下文(secure contexts)中可用;
  *
  * [MDN 参考](https://developer.mozilla.org/docs/Web/API/AuthenticatorResponse)
  */
@@ -123,8 +123,8 @@ export interface CredentialPropertiesOutput {
     rk?: boolean;
 }
 /**
- * 此 Web Crypto API 接口提供了一系列低级加密函数;可通过窗口上下文中的 Crypto.subtle 属性访问（通过 Window.crypto）;
- * 仅在安全上下文（secure contexts）中可用。
+ * 此 Web Crypto API 接口提供了一系列低级加密函数;可通过窗口上下文中的 Crypto.subtle 属性访问(通过 Window.crypto);
+ * 仅在安全上下文(secure contexts)中可用;
  *
  * [MDN 参考](https://developer.mozilla.org/docs/Web/API/SubtleCrypto)
  */
@@ -180,7 +180,7 @@ export interface SubtleCrypto {
         RsaOaepParams | AesCtrParams | AesCbcParams | AesGcmParams): Promise<ArrayBuffer>;
 }
 /**
- * 仅在安全上下文（secure contexts）中可用。
+ * 仅在安全上下文(secure contexts)中可用;
  *
  * [MDN 参考](https://developer.mozilla.org/docs/Web/API/Credential)
  */
@@ -209,8 +209,8 @@ export interface AesGcmParams extends Algorithm {
     additionalData?: BufferSource, iv: BufferSource, tagLength?: number;
 }
 /**
- * Web Crypto API 的 CryptoKey 字典表示一个加密密钥。
- * 仅在安全上下文（secure contexts）中可用。
+ * Web Crypto API 的 CryptoKey 字典表示一个加密密钥;
+ * 仅在安全上下文(secure contexts)中可用;
  *
  * [MDN 参考](https://developer.mozilla.org/docs/Web/API/CryptoKey)
  */

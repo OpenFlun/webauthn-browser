@@ -11,10 +11,10 @@ const isWindows = (() => {
 
 /**
  * 从包含凭证 ID 的对象中提取 base64url 格式的 ID 字符串
- * 支持多种 ID 表示形式（字符串、Uint8Array、Buffer 序列化对象等）
+ * 支持多种 ID 表示形式(字符串、Uint8Array、Buffer 序列化对象等)
  * > 查看定义:@see {@link extractBase64Id}
  * @param {Object} obj - 包含 `id` 属性的对象
- * @returns {string|undefined} base64url 编码的 ID 字符串，或 undefined
+ * @returns {string|undefined} base64url 编码的 ID 字符串,或 undefined
  */
 const extractBase64Id = obj => {
     if (!obj) return undefined;
@@ -33,8 +33,8 @@ const extractBase64Id = obj => {
  * - 若传入 { challenge, ... } 则包装为 { optionsJSON: input }
  * - 否则返回 null
  * > 查看定义:@see {@link normalizeOptions}
- * @param {Object} [input] - 用户传入的 options，应包含 optionsJSON 或 challenge 属性
- * @returns {Object|null} 规范化后的对象（至少包含 optionsJSON 属性）或 null
+ * @param {Object} [input] - 用户传入的 options,应包含 optionsJSON 或 challenge 属性
+ * @returns {Object|null} 规范化后的对象(至少包含 optionsJSON 属性)或 null
  */
 const normalizeOptions = input => {
     if (!input) return null;

@@ -8,7 +8,7 @@ import { WebAuthnError } from './webAuthnError.js';
  * @param {Object} params - 参数对象
  * @param {Error} params.error - 原始错误对象
  * @param {CredentialCreationOptions} params.options - 传递给 `navigator.credentials.create()` 的选项
- * @returns {WebAuthnError|Error} 如果错误能被识别则返回包含更详细信息的 WebAuthnError，否则返回原始错误
+ * @returns {WebAuthnError|Error} 如果错误能被识别则返回包含更详细信息的 WebAuthnError,否则返回原始错误
  */
 const identifyRegistrationError = ({ error, options }) => {
     const { publicKey } = options;
@@ -25,20 +25,21 @@ const identifyRegistrationError = ({ error, options }) => {
         if (publicKey.authenticatorSelection?.requireResidentKey === true)
             // https://www.w3.org/TR/webauthn-2/#sctn-op-make-cred (第 4 步)
             return new WebAuthnError({
-                message: '需要可发现凭证，但没有可用的身份验证器支持该功能',
+                message: '需要可发现凭证,但没有可用的身份验证器支持该功能',
                 code: 'ERROR_AUTHENTICATOR_MISSING_DISCOVERABLE_CREDENTIAL_SUPPORT', cause: error,
             });
-        // `mediation` 在 CredentialCreationOptions 中尚不存在，但截至 2024 年 9 月已有可能
+        // `mediation` 在 CredentialCreationOptions 中尚不存在,但截至 2024 年 9 月已有可能
         else if (options.mediation === 'conditional' && publicKey.authenticatorSelection?.userVerification === 'required')
             // https://w3c.github.io/webauthn/#sctn-createCredential (第 22.4 步)
             return new WebAuthnError({
-                message: '自动注册期间要求用户验证，但无法执行', code: 'ERROR_AUTO_REGISTER_USER_VERIFICATION_FAILURE', cause: error
+                message: '自动注册期间要求用户验证,但无法执行',
+                code: 'ERROR_AUTO_REGISTER_USER_VERIFICATION_FAILURE', cause: error
             });
 
         else if (publicKey.authenticatorSelection?.userVerification === 'required')
             // https://www.w3.org/TR/webauthn-2/#sctn-op-make-cred (第 5 步)
             return new WebAuthnError({
-                message: '需要用户验证，但没有可用的身份验证器支持该功能',
+                message: '需要用户验证,但没有可用的身份验证器支持该功能',
                 code: 'ERROR_AUTHENTICATOR_MISSING_USER_VERIFICATION_SUPPORT', cause: error
             });
     }
@@ -50,7 +51,7 @@ const identifyRegistrationError = ({ error, options }) => {
         });
     else if (error.name === 'NotAllowedError')
         /**
-         * 直接传递错误；平台对该错误的定义超出了规范范围，保留原始错误消息；
+         * 直接传递错误;平台对该错误的定义超出了规范范围,保留原始错误消息;
          */
         return new WebAuthnError({ message: error.message, code: 'ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY', cause: error });
     else if (error.name === 'NotSupportedError') {
@@ -58,7 +59,8 @@ const identifyRegistrationError = ({ error, options }) => {
         if (validPubKeyCredParams.length === 0)
             // https://www.w3.org/TR/webauthn-2/#sctn-createCredential (第 10 步)
             return new WebAuthnError({
-                message: 'pubKeyCredParams 中没有类型为 "public-key" 的条目', code: 'ERROR_MALFORMED_PUBKEYCREDPARAMS', cause: error
+                message: 'pubKeyCredParams 中没有类型为 "public-key" 的条目',
+                code: 'ERROR_MALFORMED_PUBKEYCREDPARAMS', cause: error
             });
         // https://www.w3.org/TR/webauthn-2/#sctn-op-make-cred (第 2 步)
         return new WebAuthnError({
@@ -76,7 +78,7 @@ const identifyRegistrationError = ({ error, options }) => {
         else if (publicKey.rp.id !== effectiveDomain)
             // https://www.w3.org/TR/webauthn-2/#sctn-createCredential (第 8 步)
             return new WebAuthnError({
-                message: `信赖方 ID“${publicKey.rp.id}”对此域名无效`, code: 'ERROR_INVALID_RP_ID', cause: error
+                message: `信赖方 ID"${publicKey.rp.id}"对此域名无效`, code: 'ERROR_INVALID_RP_ID', cause: error
             });
     }
     else if (error.name === 'TypeError') {
@@ -90,7 +92,8 @@ const identifyRegistrationError = ({ error, options }) => {
         // https://www.w3.org/TR/webauthn-2/#sctn-op-make-cred (第 1 步)
         // https://www.w3.org/TR/webauthn-2/#sctn-op-make-cred (第 8 步)
         return new WebAuthnError({
-            message: '身份验证器无法处理指定的选项，或无法创建新的凭证', code: 'ERROR_AUTHENTICATOR_GENERAL_ERROR', cause: error
+            message: '身份验证器无法处理指定的选项,或无法创建新的凭证',
+            code: 'ERROR_AUTHENTICATOR_GENERAL_ERROR', cause: error
         });
 
     return error;

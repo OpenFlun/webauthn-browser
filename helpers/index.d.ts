@@ -1,6 +1,8 @@
 import { base64URLStringToBuffer, bufferToBase64URLString } from './base64urlAndBuffer.js';
 import { _browserSupportsWebAuthnInternals, browserSupportsWebAuthn } from './browserSupportsWebAuthn.js';
-import { _browserSupportsWebAuthnAutofillInternals, browserSupportsWebAuthnAutofill } from './browserSupportsWebAuthnAutofill.js';
+import {
+    _browserSupportsWebAuthnAutofillInternals, browserSupportsWebAuthnAutofill
+} from './browserSupportsWebAuthnAutofill.js';
 import { isWindows, extractBase64Id, normalizeOptions } from './common.js';
 import { identifyAuthenticationError } from './identifyAuthenticationError.js';
 import { identifyRegistrationError } from './identifyRegistrationError.js';
@@ -28,7 +30,7 @@ declare module './base64urlAndBuffer.js' {
 /**
  * ```js
  * // 文件导出内容
- * const _browserSupportsWebAuthnInternals={}; // 测试期间对返回值进行桩（stub）处理
+ * const _browserSupportsWebAuthnInternals={}; // 测试期间对返回值进行桩(stub)处理
  * browserSupportsWebAuthn();                  // 判断当前浏览器是否支持 WebAuthn
  * ```
  * >查看定义:@see {@link _browserSupportsWebAuthnInternals}、{@link browserSupportsWebAuthn}
@@ -140,7 +142,8 @@ declare module './toPublicKeyCredentialDescriptor.js' {
 /**
  * ```js
  * // 文件导出内容
- * const WebAuthnAbortService = new BaseWebAuthnAbortService(); // 服务单例,用于确保同一时间只有一个 WebAuthn 仪式处于活动状态;
+ * const WebAuthnAbortService = new BaseWebAuthnAbortService();
+ * // 服务单例,用于确保同一时间只有一个 WebAuthn 仪式处于活动状态;
  * ```
  * >查看定义:@see {@link WebAuthnAbortService}
  */
@@ -169,16 +172,17 @@ declare module './webAuthnError.js' {
 
 // ================================ 导出入口 ================================
 /**
- * 模块导出内容：
+ * 模块导出内容:
  * ```js
  * // 类型
  * type WebAuthnErrorCode;
  *
  * // 常量
- * const _browserSupportsWebAuthnInternals={};         // 测试期间对返回值进行桩（stub）处理
+ * const _browserSupportsWebAuthnInternals={};         // 测试期间对返回值进行桩(stub)处理
  * const _browserSupportsWebAuthnAutofillInternals={}; // 测试期间模拟返回值;
  * const isWindows=();                                 // 当前操作系统是否为 Windows
- * const WebAuthnAbortService = new BaseWebAuthnAbortService(); // 服务单例,用于确保同一时间只有一个 WebAuthn 仪式处于活动状态;
+ * const WebAuthnAbortService = new BaseWebAuthnAbortService();
+ * // 服务单例,用于确保同一时间只有一个 WebAuthn 仪式处于活动状态;
  *
  * // 函数
  * base64URLStringToBuffer();                          // 将 Base64URL 编码的字符串转换为 Array Buffer;
@@ -186,14 +190,16 @@ declare module './webAuthnError.js' {
  * browserSupportsWebAuthn();                          // 判断当前浏览器是否支持 WebAuthn
  * browserSupportsWebAuthnAutofill();                  // 判断浏览器是否支持条件式UI;
  * isWindows();                                        // 检测当前操作系统是否为 Windows
- * extractBase64Id();                                  // 从包含凭证 ID 的对象中提取 base64url 格式的 ID 字符串 支持多种 ID 表示形式
+ * extractBase64Id();
+ * // 从包含凭证 ID 的对象中提取 base64url 格式的 ID 字符串 支持多种 ID 表示形式
  * normalizeOptions();                                 // 规范化传入的 options 对象,兼容旧调用方式
  * identifyAuthenticationError();                      // 尝试推断调用 `navigator.credentials.get()` 后引发错误的原因;
  * identifyRegistrationError();                        // 尝试推断调用 `navigator.credentials.create()` 后引发错误的原因;
  * isValidDomain();                                    // 判断主机名是否符合验证规范;
  * platformAuthenticatorIsAvailable();                 // 判断浏览器是否能够与内置身份验证器通信;
  * toAuthenticatorAttachment();                        // 尝试将 `string` 值强制转换为已知的 `AuthenticatorAttachment` 类型
- * toPublicKeyCredentialDescriptor();                  // 将描述符中的Base64URL字符串`id`转换为ArrayBuffer,以适配 WebAuthn API;
+ * toPublicKeyCredentialDescriptor();
+ * // 将描述符中的Base64URL字符串`id`转换为ArrayBuffer,以适配 WebAuthn API;
  *
  * // 类
  * class WebAuthnError{};                              // 自定义错误,用于更细致地说明规范中八种错误被抛出的原因;

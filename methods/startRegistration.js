@@ -1,5 +1,6 @@
 import {
-    bufferToBase64URLString, base64URLStringToBuffer, browserSupportsWebAuthn, isWindows, extractBase64Id, normalizeOptions,
+    bufferToBase64URLString, base64URLStringToBuffer, browserSupportsWebAuthn, isWindows, extractBase64Id,
+    normalizeOptions,
     identifyRegistrationError, toAuthenticatorAttachment, toPublicKeyCredentialDescriptor, WebAuthnAbortService
 } from '../helpers/index.js';
 
@@ -15,7 +16,7 @@ const warnOnBrokenImplementation = (methodName, cause) => {
 };
 
 /**
- * 通过 WebAuthn 证明开始认证器“注册”
+ * 通过 WebAuthn 证明开始认证器"注册"
  * - 查看定义:@see {@link startRegistration}
  *
  * @param {Object} options - 配置选项
@@ -74,9 +75,9 @@ const startRegistration = async (options) => {
     }, createOptions = {};
 
     /**
-     * 尝试使用条件创建（conditional create）为用户注册一个通行密钥,
+     * 尝试使用条件创建(conditional create)为用户注册一个通行密钥,
      * 使用用户刚刚用于认证的密码管理器;浏览器不会向用户显示任何突出的 UI;
-     * 注意：`mediation` 在 CredentialCreationOptions 中尚不存在,但自 2024 年 9 月起已可用
+     * 注意:`mediation` 在 CredentialCreationOptions 中尚不存在,但自 2024 年 9 月起已可用
      */
     if (useAutoRegister) createOptions.mediation = 'conditional';
     createOptions.publicKey = publicKey, createOptions.signal = WebAuthnAbortService.createNewAbortSignal();

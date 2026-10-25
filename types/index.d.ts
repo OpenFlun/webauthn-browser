@@ -1,29 +1,32 @@
 /**
- * 请勿修改这些文件！
+ * 请勿修改这些文件!
  *
- * 这些文件是从 **types** 包复制而来的;要更新此文件,请修改相应包中的文件，
- * 然后从 monorepo 根目录运行命令： deno task codegen:types
+ * 这些文件是从 **types** 包复制而来的;要更新此文件,请修改相应包中的文件,
+ * 然后从 monorepo 根目录运行命令: deno task codegen:types
  */
 import type {
     AttestationConveyancePreference, AuthenticationExtensionsClientInputs, AuthenticationExtensionsClientOutputs,
-    AuthenticatorAssertionResponse, AuthenticatorAttachment, AuthenticatorAttestationResponse, AuthenticatorSelectionCriteria,
+    AuthenticatorAssertionResponse, AuthenticatorAttachment, AuthenticatorAttestationResponse,
+    AuthenticatorSelectionCriteria,
     COSEAlgorithmIdentifier, PublicKeyCredential, PublicKeyCredentialCreationOptions, PublicKeyCredentialDescriptor,
     PublicKeyCredentialParameters, PublicKeyCredentialRequestOptions, PublicKeyCredentialRpEntity, PublicKeyCredentialType,
     UserVerificationRequirement
 } from './dom.js';
 export type {
     AttestationConveyancePreference, AuthenticationExtensionsClientInputs, AuthenticationExtensionsClientOutputs,
-    AuthenticatorAssertionResponse, AuthenticatorAttachment, AuthenticatorAttestationResponse, AuthenticatorSelectionCriteria,
+    AuthenticatorAssertionResponse, AuthenticatorAttachment, AuthenticatorAttestationResponse,
+    AuthenticatorSelectionCriteria,
     AuthenticatorTransport, COSEAlgorithmIdentifier, Crypto, PublicKeyCredential, PublicKeyCredentialCreationOptions,
-    PublicKeyCredentialDescriptor, PublicKeyCredentialParameters, PublicKeyCredentialRequestOptions, PublicKeyCredentialRpEntity,
+    PublicKeyCredentialDescriptor, PublicKeyCredentialParameters, PublicKeyCredentialRequestOptions,
+    PublicKeyCredentialRpEntity,
     PublicKeyCredentialType, PublicKeyCredentialUserEntity, ResidentKeyRequirement, UserVerificationRequirement,
 } from './dom.js';
 
 /**
- * 适用于 JSON 传输到浏览器的 PublicKeyCredentialCreationOptions 变体，
- * （最终）将传递给浏览器中的 navigator.credentials.create(...);
+ * 适用于 JSON 传输到浏览器的 PublicKeyCredentialCreationOptions 变体,
+ * (最终)将传递给浏览器中的 navigator.credentials.create(...);
  *
- * 当 WebAuthn L3 类型最终进入语言标准时,应被官方的 TypeScript DOM 类型取代：
+ * 当 WebAuthn L3 类型最终进入语言标准时,应被官方的 TypeScript DOM 类型取代:
  *
  * https://w3c.github.io/webauthn/#dictdef-publickeycredentialcreationoptionsjson
  */
@@ -42,8 +45,8 @@ export interface PublicKeyCredentialCreationOptionsJSON {
 }
 
 /**
- * 适用于 JSON 传输到浏览器的 PublicKeyCredentialRequestOptions 变体，
- * （最终）将传递给浏览器中的 navigator.credentials.get(...)。
+ * 适用于 JSON 传输到浏览器的 PublicKeyCredentialRequestOptions 变体,
+ * (最终)将传递给浏览器中的 navigator.credentials.get(...);
  */
 export interface PublicKeyCredentialRequestOptionsJSON {
     challenge: Base64URLString;
@@ -78,7 +81,7 @@ export interface RegistrationCredential extends PublicKeyCredentialFuture {
 }
 
 /**
- * 略微修改的 RegistrationCredential,用于简化处理浏览器中经过 Base64URL 编码的 ArrayBuffer，
+ * 略微修改的 RegistrationCredential,用于简化处理浏览器中经过 Base64URL 编码的 ArrayBuffer,
  * 以便它们可以作为 JSON 发送到服务器;
  *
  * https://w3c.github.io/webauthn/#dictdef-registrationresponsejson
@@ -100,8 +103,8 @@ export interface AuthenticationCredential extends PublicKeyCredentialFuture {
 }
 
 /**
- * 略微修改的 AuthenticationCredential,用于简化处理浏览器中经过 Base64URL 编码的 ArrayBuffer，
- * 以便它们可以作为 JSON 发送到服务器。
+ * 略微修改的 AuthenticationCredential,用于简化处理浏览器中经过 Base64URL 编码的 ArrayBuffer,
+ * 以便它们可以作为 JSON 发送到服务器;
  *
  * https://w3c.github.io/webauthn/#dictdef-authenticationresponsejson
  */
@@ -115,8 +118,8 @@ export interface AuthenticationResponseJSON {
 }
 
 /**
- * 略微修改的 AuthenticatorAttestationResponse,用于简化处理浏览器中经过 Base64URL 编码的 ArrayBuffer，
- * 以便它们可以作为 JSON 发送到服务器。
+ * 略微修改的 AuthenticatorAttestationResponse,用于简化处理浏览器中经过 Base64URL 编码的 ArrayBuffer,
+ * 以便它们可以作为 JSON 发送到服务器;
  *
  * https://w3c.github.io/webauthn/#dictdef-authenticatorattestationresponsejson
  */
@@ -130,8 +133,8 @@ export interface AuthenticatorAttestationResponseJSON {
 }
 
 /**
- * 略微修改的 AuthenticatorAssertionResponse,用于简化处理浏览器中经过 Base64URL 编码的 ArrayBuffer，
- * 以便它们可以作为 JSON 发送到服务器。
+ * 略微修改的 AuthenticatorAssertionResponse,用于简化处理浏览器中经过 Base64URL 编码的 ArrayBuffer,
+ * 以便它们可以作为 JSON 发送到服务器;
  *
  * https://w3c.github.io/webauthn/#dictdef-authenticatorassertionresponsejson
  */
@@ -156,7 +159,7 @@ export type WebAuthnCredential = {
 export type Base64URLString = string;
 
 /**
- * TypeScript DOM 库中的 AuthenticatorAttestationResponse 已过时（最高到 v3.9.7）。
+ * TypeScript DOM 库中的 AuthenticatorAttestationResponse 已过时(最高到 v3.9.7);
  * 此处维护一个增强版本,以便随着 WebAuthn 规范的演进实现额外的属性;
  *
  * 参见 https://www.w3.org/TR/webauthn-2/#iface-authenticatorattestationresponse
@@ -169,13 +172,13 @@ export interface AuthenticatorAttestationResponseFuture extends AuthenticatorAtt
 
 /**
  * TypeScript 的 `AuthenticatorTransport` 的超集,包含对最新传输方式的支持;
- * 当 TypeScript 更新到知晓这些传输方式后（大约在 4.6.3 之后）,应最终被 TypeScript 的类型取代;
+ * 当 TypeScript 更新到知晓这些传输方式后(大约在 4.6.3 之后),应最终被 TypeScript 的类型取代;
  */
 export type AuthenticatorTransportFuture = 'ble' | 'cable' | 'hybrid' | 'internal' | 'nfc' | 'smart-card' | 'usb';
 
 /**
  * TypeScript 的 `PublicKeyCredentialDescriptor` 的超集,知晓最新的传输方式;
- * 当 TypeScript 更新到知晓这些传输方式后（大约在 4.6.3 之后）,应最终被 TypeScript 的类型取代;
+ * 当 TypeScript 更新到知晓这些传输方式后(大约在 4.6.3 之后),应最终被 TypeScript 的类型取代;
  */
 export interface PublicKeyCredentialDescriptorFuture extends Omit<PublicKeyCredentialDescriptor, 'transports'> {
     transports?: AuthenticatorTransportFuture[];
@@ -196,15 +199,15 @@ export interface PublicKeyCredentialFuture extends PublicKeyCredential {
 }
 
 /**
- * 由认证器数据中的第 3 位（“备份资格”）定义的两种凭证类型：
+ * 由认证器数据中的第 3 位("备份资格")定义的两种凭证类型:
  * - `"singleDevice"` 凭证永远不会被备份
  * - `"multiDevice"` 凭证可以被备份
  */
 export type CredentialDeviceType = 'singleDevice' | 'multiDevice';
 
 /**
- * 依赖方可以在注册时传递给浏览器的认证器类别,能够理解这些值的浏览器可以优化其模态体验，
- * 将用户引导至特定的注册流程：
+ * 依赖方可以在注册时传递给浏览器的认证器类别,能够理解这些值的浏览器可以优化其模态体验,
+ * 将用户引导至特定的注册流程:
  *
  * - `hybrid`: 移动设备上的平台认证器
  * - `security-key`: 可通过 USB 或 NFC 连接在多个设备上使用的便携式 FIDO2 认证器
@@ -228,10 +231,11 @@ export type AttestationFormat = 'fido-u2f' | 'packed' | 'android-safetynet' | 'a
  *
  * **背景**
  *
- * `Uint8Array` 在TypeScript 5.7中成为泛型类型,要求从Deno 2.2开始将简单定义为 `Uint8Array` 的类型重构为 `Uint8Array<ArrayBuffer>`;
- * 然而，在 Deno 2.1.x 及更早版本中 `Uint8Array` 不是泛型，因此此类型有助于弥合这一差距。
+ * `Uint8Array` 在TypeScript 5.7中成为泛型类型,要求从Deno 2.2开始将简单定义为 `Uint8Array` 的类型
+ * 重构为 `Uint8Array<ArrayBuffer>`;
+ * 然而,在 Deno 2.1.x 及更早版本中 `Uint8Array` 不是泛型,因此此类型有助于弥合这一差距;
  *
- * 灵感来自 Deno 的标准库：
+ * 灵感来自 Deno 的标准库:
  *
  * https://github.com/denoland/std/blob/b5a5fe4f96b91c1fe8dba5cc0270092dd11d3287/bytes/_types.ts#L11
  */

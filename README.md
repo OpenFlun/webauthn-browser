@@ -3,7 +3,10 @@
 ![WebAuthn](https://img.shields.io/badge/WebAuthn-Browser_Simplified-blueviolet?style=for-the-badge&logo=WebAuthn)
 [![npm (scoped)](https://img.shields.io/npm/v/@flun/webauthn-browser?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/@flun/webauthn-browser)
 
-**@flun/webauthn-browser** 是一个专为浏览器环境设计的 WebAuthn（含 Passkeys）前端工具库,基于 [@simplewebauthn/browser](https://simplewebauthn.dev/) 核心逻辑重构并增强,它封装了 `navigator.credentials` API 的复杂细节,提供简洁的 Promise 风格接口,并内置了丰富的错误处理与 Base64URL 编解码工具,并且新增在Windows下优先调用底层Windows hello 注册/认证(避免环境干扰与安全);
+**@flun/webauthn-browser** 是一个专为浏览器环境设计的 WebAuthn(含 Passkeys)前端工具库,
+基于 [@simplewebauthn/browser](https://simplewebauthn.dev/) 核心逻辑重构并增强,它封装了 `navigator.credentials` API 
+的复杂细节,提供简洁的 Promise 风格接口,并内置了丰富的错误处理与 Base64URL 编解码工具,
+并且新增在Windows下优先调用底层Windows hello 注册/认证(避免环境干扰与安全);
 
 本包以 **ESM** 编写,同时提供 **UMD** 打包产物,可通过 npm 模块方式或 `<script>` 全局方式引入,兼容现代浏览器及部分旧版环境;
 
@@ -15,7 +18,7 @@
 - [安装](#安装)
   - [NPM 模块方式](#npm-模块方式)
   - [UMD 全局方式](#umd-全局方式)
-    - [ES2021（推荐用于现代浏览器）](#es2021推荐用于现代浏览器)
+    - [ES2021(推荐用于现代浏览器)](#es2021推荐用于现代浏览器)
 - [主要功能](#主要功能)
 - [Windows下优先调用底层Windows hello 注册/认证(避免环境干扰);](#windows下优先调用底层windows-hello-注册认证避免环境干扰)
 - [快速开始](#快速开始)
@@ -45,7 +48,8 @@
 
 ### 允许安装脚本执行
 
-本包在安装时可能触发某些依赖包的自动脚本（如 `postinstall` 等）;如果你的 npm 全局配置或项目配置禁止了脚本执行（例如设置了 `ignore-scripts=true`）,可能会导致安装不完整或运行时异常;
+本包在安装时可能触发某些依赖包的自动脚本(如 `postinstall` 等);如果你的 npm 全局配置或项目配置禁止了脚本执行(例如设置了 
+`ignore-scripts=true`),可能会导致安装不完整或运行时异常;
 
 推荐在项目根目录的 `package.json` 中添加 `allowScripts` 字段,显式放行本包及其依赖的脚本:
 
@@ -53,12 +57,13 @@
 {
   "allowScripts": {
     "@flun/webauthn-browser": true
-    // 如果依赖的其它包（如 bcrypt、electron-winstaller 等）也有脚本,请按需添加,格式相同
+    // 如果依赖的其它包(如 bcrypt、electron-winstaller 等)也有脚本,请按需添加,格式相同
   }
 }
 ```
 
-> 如果你信任所有安装包,也可以直接在项目 `.npmrc` 中设置 `allow-scripts = false`（表示关闭脚本拦截,所有脚本均允许执行）,或删除`ignore-scripts` 字段;
+> 如果你信任所有安装包,也可以直接在项目 `.npmrc` 中设置 `allow-scripts = false`(表示关闭脚本拦截,所有脚本均允许执行),
+  或删除`ignore-scripts` 字段;
 
 ---
 
@@ -66,13 +71,13 @@
 
 ### NPM 模块方式
 
-适用于使用打包工具（Webpack、Vite、Rollup 等）或 Node.js ≥ 22.12.0 的环境;
+适用于使用打包工具(Webpack、Vite、Rollup 等)或 Node.js ≥ 22.12.0 的环境;
 
 ```sh
 npm i @flun/webauthn-browser
 ```
 
-然后在代码中按需导入：
+然后在代码中按需导入:
 
 ```js
 // ES Module
@@ -86,12 +91,12 @@ const { startRegistration, startAuthentication } = require('@flun/webauthn-brows
 
 本包通过 **unpkg** 提供 UMD 版本,引入后所有方法将挂载在全局对象 **`flunWebAuthnBrowser`** 上;
 
-#### ES2021（推荐用于现代浏览器）
+#### ES2021(推荐用于现代浏览器)
 
 ```html
 <script src="https://unpkg.com/@flun/webauthn-browser/dist/index.js"></script>
 ```
-*** 注意 ES5（不再支持）***
+*** 注意 ES5(不再支持)***
 
 ---
 ## 主要功能
@@ -102,8 +107,8 @@ const { startRegistration, startAuthentication } = require('@flun/webauthn-brows
 - ✅ **内置错误标准化**
   将浏览器原生错误转换为包含 `code` 和 `message` 的 `WebAuthnError` 对象,便于业务层处理;
 
-- ✅ **条件媒介支持（Conditional UI / 自动填充）**
-  支持 `useBrowserAutofill` 实现无感登录体验（需页面存在合适的 `<input>` 元素）;
+- ✅ **条件媒介支持(Conditional UI / 自动填充)**
+  支持 `useBrowserAutofill` 实现无感登录体验(需页面存在合适的 `<input>` 元素);
 
 - ✅ **完整的环境检测**
   提供 `browserSupportsWebAuthn()`、`platformAuthenticatorIsAvailable()` 等方法,精确判断设备能力;
@@ -194,7 +199,7 @@ async function login(username) {
       console.log('注册结果:', result);
     }
 
-    // ---------- 登录（认证）示例 ----------
+    // ---------- 登录(认证)示例 ----------
     async function handleLogin(username) {
       const optionsRes = await fetch('/api/login/begin', {
         method: 'POST',
@@ -219,8 +224,8 @@ async function login(username) {
       }
     }
 
-    // ---------- 带自动填充（Conditional UI）的登录示例 ----------
-    // 注意：使用自动填充时,页面必须包含类似如下的 input 元素：
+    // ---------- 带自动填充(Conditional UI)的登录示例 ----------
+    // 注意:使用自动填充时,页面必须包含类似如下的 input 元素:
     // <input type="text" name="username" autocomplete="username webauthn" />
     async function handleAutofillLogin() {
       if (!(await flunWebAuthnBrowser.browserSupportsWebAuthnAutofill())) {
@@ -285,11 +290,11 @@ async function login(username) {
 | 字段名            | 类型      | 默认值  | 描述                                                           |
 | ----------------- | --------- | ------- | -------------------------------------------------------------- |
 | `optionsJSON`     | `object`  | 必填    | 由服务端调用 `generateRegistrationOptions()` 生成的 JSON 对象  |
-| `useAutoRegister` | `boolean` | `false` | 是否启用条件媒介自动注册（实验性,需浏览器支持 Conditional UI） |
+| `useAutoRegister` | `boolean` | `false` | 是否启用条件媒介自动注册(实验性,需浏览器支持 Conditional UI) |
 
 **返回值** `Promise<RegistrationResponseJSON>`
 
-返回一个经过标准化处理的 JSON 对象,可直接发送给后端 `verifyRegistrationResponse()` 验证;响应格式如下：
+返回一个经过标准化处理的 JSON 对象,可直接发送给后端 `verifyRegistrationResponse()` 验证;响应格式如下:
 
 ```ts
 interface RegistrationResponseJSON {
@@ -318,15 +323,22 @@ const response = await startRegistration({ optionsJSON });
 
 #### startAuthentication(options)
 
-发起 WebAuthn 认证（登录）流程;
+发起 WebAuthn 认证(登录)流程;
 
 **参数**
 
-| 字段名                       | 类型      | 默认值  | 描述                                                                           |
-| ---------------------------- | --------- | ------- | ------------------------------------------------------------------------------ |
-| `optionsJSON`                | `object`  | 必填    | 由服务端调用 `generateAuthenticationOptions()` 生成的 JSON 对象                |
-| `useBrowserAutofill`         | `boolean` | `false` | 是否启用条件媒介（自动填充）,实现无感登录                                      |
-| `verifyBrowserAutofillInput` | `boolean` | `true`  | 启用自动填充时是否检查页面是否存在 `autocomplete="... webauthn"` 的 input 元素 |
+- `optionsJSON`
+  - 类型:`object`
+  - 默认值:必填
+  - 描述:由服务端调用 `generateAuthenticationOptions()` 生成的 JSON 对象
+- `useBrowserAutofill`
+  - 类型:`boolean`
+  - 默认值:`false`
+  - 描述:是否启用条件媒介(自动填充),实现无感登录
+- `verifyBrowserAutofillInput`
+  - 类型:`boolean`
+  - 默认值:`true`
+  - 描述:启用自动填充时是否检查页面是否存在 `autocomplete="... webauthn"` 的 input 元素
 
 **返回值** `Promise<AuthenticationResponseJSON>`
 
@@ -352,7 +364,7 @@ interface AuthenticationResponseJSON {
 // 普通登录
 const response = await startAuthentication({ optionsJSON });
 
-// 自动填充登录（需页面存在 <input autocomplete="webauthn">）
+// 自动填充登录(需页面存在 <input autocomplete="webauthn">)
 const response = await startAuthentication({
   optionsJSON,
   useBrowserAutofill: true
@@ -375,7 +387,7 @@ if (flunWebAuthnBrowser.browserSupportsWebAuthn()) {
 
 #### platformAuthenticatorIsAvailable()
 
-检查平台认证器（如 Touch ID、Face ID、Windows Hello）是否可用;
+检查平台认证器(如 Touch ID、Face ID、Windows Hello)是否可用;
 
 **返回值** `Promise<boolean>`
 
@@ -385,7 +397,7 @@ const available = await flunWebAuthnBrowser.platformAuthenticatorIsAvailable();
 
 #### browserSupportsWebAuthnAutofill()
 
-检查当前浏览器是否支持 WebAuthn 条件媒介（自动填充）;
+检查当前浏览器是否支持 WebAuthn 条件媒介(自动填充);
 
 **返回值** `Promise<boolean>`
 
@@ -422,19 +434,19 @@ const { bufferToBase64URLString, base64URLStringToBuffer } = flunWebAuthnBrowser
 
 | 属性    | 类型     | 描述                         |
 | ------- | -------- | ---------------------------- |
-| `name`  | `string` | 错误名称（通常为原始错误名） |
-| `code`  | `string` | 标准化的错误码（见下方表格） |
+| `name`  | `string` | 错误名称(通常为原始错误名) |
+| `code`  | `string` | 标准化的错误码(见下方表格) |
 | `cause` | `Error`  | 浏览器抛出的原始错误对象     |
 
 **常见错误码**
 
 | 错误码                                                        | 描述                                             |
 | ------------------------------------------------------------- | ------------------------------------------------ |
-| `ERROR_CEREMONY_ABORTED`                                      | 认证/注册流程被中止（如调用 `cancelCeremony()`） |
+| `ERROR_CEREMONY_ABORTED`                                      | 认证/注册流程被中止(如调用 `cancelCeremony()`) |
 | `ERROR_INVALID_DOMAIN`                                        | 当前域名无效                                     |
 | `ERROR_INVALID_RP_ID`                                         | RP ID 与当前域名不匹配                           |
 | `ERROR_AUTHENTICATOR_GENERAL_ERROR`                           | 认证器通用错误                                   |
-| `ERROR_AUTHENTICATOR_PREVIOUSLY_REGISTERED`                   | 认证器已被注册（注册时）                         |
+| `ERROR_AUTHENTICATOR_PREVIOUSLY_REGISTERED`                   | 认证器已被注册(注册时)                         |
 | `ERROR_AUTHENTICATOR_MISSING_DISCOVERABLE_CREDENTIAL_SUPPORT` | 需要可发现凭证但认证器不支持                     |
 | `ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY`                        | 透传错误,需查看 `cause` 属性                     |
 
@@ -482,7 +494,7 @@ try {
         console.log('用户取消了操作');
         break;
       case 'ERROR_INVALID_RP_ID':
-        alert('配置错误：RP ID 无效');
+        alert('配置错误:RP ID 无效');
         break;
       default:
         console.error('认证失败', err.message);
@@ -499,7 +511,8 @@ try {
 
 ### 配合 @flun/webauthn-server
 
-以下是一个完整的最小化集成示例,前端使用本库,后端使用 [`@flun/webauthn-server`](https://www.npmjs.com/package/@flun/webauthn-server);
+以下是一个完整的最小化集成示例,前端使用本库,
+后端使用 [`@flun/webauthn-server`](https://www.npmjs.com/package/@flun/webauthn-server);
 
 **前端代码**
 
@@ -531,7 +544,7 @@ async function login(username) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username })
   }), options = await optionsRes.json(),
-   // 2. 启动浏览器认证流程（可开启自动填充）
+   // 2. 启动浏览器认证流程(可开启自动填充)
    response = await startAuthentication({ optionsJSON: options }),
    // 3. 发送响应验证
    verifyRes = await fetch('/api/login/complete', {
@@ -543,7 +556,7 @@ async function login(username) {
 }
 ```
 
-**后端代码片段**（基于 Express + `@flun/webauthn-server`）
+**后端代码片段**(基于 Express + `@flun/webauthn-server`)
 
 ```js
 import {

@@ -36,7 +36,7 @@
     "type": "git",
     "url": "git+https://github.com/OpenFlun/webauthn-browser.git"
   },
-  "homepage": "https://www.npmjs.com/package/@flun/webauthn-browser#readme",
+  "homepage": "https://github.com/OpenFlun/webauthn-browser#readme",
   "bugs": {
     "url": "https://github.com/OpenFlun/webauthn-browser/issues"
   },
@@ -47,6 +47,6 @@
     "npm": ">=10.0.0"
   },
   "devDependencies": {
-    "@types/node": "^26.6.3"
+    "@types/node": "^26.6.5"
   }
 }

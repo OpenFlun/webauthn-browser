@@ -5,13 +5,15 @@ import {
 } from '../helpers/index.js';
 
 /**
- * 通过 WebAuthn 断言开始身份验证器“登录”
+ * 通过 WebAuthn 断言开始身份验证器"登录"
  * > 查看定义:@see {@link startAuthentication}
  * @param {Object} options - 配置选项
  * @param {Object} options.optionsJSON - 来自 **@flun/webauthn-server** 的 `generateAuthenticationOptions()` 的输出
  * @param {boolean} [options.useBrowserAutofill=false] - 初始化条件式 UI,以支持通过浏览器自动填充提示进行登录
- * @param {boolean} [options.verifyBrowserAutofillInput=true] - 当 `useBrowserAutofill` 为 `true` 时,确保存在合适的 `<input>` 元素
- * @param {string} [options.accountId] - （可选）手动指定账号 ID,用于 Windows 原生认证时作为凭证标识,若未提供则从 `optionsJSON.allowCredentials` 中提取
+ * @param {boolean} [options.verifyBrowserAutofillInput=true] - 当 `useBrowserAutofill` 为 `true` 时,
+ *   确保存在合适的 `<input>` 元素
+ * @param {string} [options.accountId] - (可选)手动指定账号 ID,用于 Windows 原生认证时作为凭证标识,
+ *   若未提供则从 `optionsJSON.allowCredentials` 中提取
  * @returns {Promise<{
  *   id: string,
  *   rawId: string,
@@ -61,7 +63,7 @@ const startAuthentication = async (options) => {
 
         const eligibleInputs = document.querySelectorAll("input[autocomplete$='webauthn']");
         if (eligibleInputs.length < 1 && verifyBrowserAutofillInput)
-            throw Error('未检测到任何 `autocomplete` 属性中包含 "webauthn"（作为唯一值或最后一个值）的 <input> 元素');
+            throw Error('未检测到任何 `autocomplete` 属性中包含 "webauthn"(作为唯一值或最后一个值)的 <input> 元素');
 
         getOptions.mediation = 'conditional', publicKey.allowCredentials = [];
     }
