@@ -1,7 +1,9 @@
 # @flun/webauthn-browser <!-- omit in toc -->
 
 ![WebAuthn](https://img.shields.io/badge/WebAuthn-Browser_Simplified-blueviolet?style=for-the-badge&logo=WebAuthn)
-[![npm (scoped)](https://img.shields.io/npm/v/@flun/webauthn-browser?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/@flun/webauthn-browser)
+[![npm (scoped)][npm-badge]][npm-link]
+
+## 简介
 
 **@flun/webauthn-browser** 是一个专为浏览器环境设计的 WebAuthn(含 Passkeys)前端工具库,
 基于 [@simplewebauthn/browser](https://simplewebauthn.dev/) 核心逻辑重构并增强,它封装了 `navigator.credentials` API 
@@ -10,41 +12,52 @@
 
 本包以 **ESM** 编写,同时提供 **UMD** 打包产物,可通过 npm 模块方式或 `<script>` 全局方式引入,兼容现代浏览器及部分旧版环境;
 
-## 目录
+---
 
-- [目录](#目录)
-- [配置](#配置)
-  - [允许安装脚本执行](#允许安装脚本执行)
-- [安装](#安装)
-  - [NPM 模块方式](#npm-模块方式)
-  - [UMD 全局方式](#umd-全局方式)
-    - [ES2021(推荐用于现代浏览器)](#es2021推荐用于现代浏览器)
-- [主要功能](#主要功能)
-- [Windows下优先调用底层Windows hello 注册/认证(避免环境干扰);](#windows下优先调用底层windows-hello-注册认证避免环境干扰)
-- [快速开始](#快速开始)
-  - [模块方式使用示例](#模块方式使用示例)
-  - [全局方式使用示例](#全局方式使用示例)
-- [API 参考](#api-参考)
-  - [核心认证方法](#核心认证方法)
-    - [startRegistration(options)](#startregistrationoptions)
-    - [startAuthentication(options)](#startauthenticationoptions)
-  - [环境检测方法](#环境检测方法)
-    - [browserSupportsWebAuthn()](#browsersupportswebauthn)
-    - [platformAuthenticatorIsAvailable()](#platformauthenticatorisavailable)
-    - [browserSupportsWebAuthnAutofill()](#browsersupportswebauthnautofill)
-  - [编解码工具](#编解码工具)
-  - [错误类与中止服务](#错误类与中止服务)
-    - [WebAuthnError](#webauthnerror)
-    - [WebAuthnAbortService](#webauthnabortservice)
-  - [内部调试工具](#内部调试工具)
-- [错误处理](#错误处理)
-- [前后端集成示例](#前后端集成示例)
-  - [配合 @flun/webauthn-server](#配合-flunwebauthn-server)
-- [许可证](#许可证)
-- [相关链接](#相关链接)
+## 特性
+
+- **简化的 WebAuthn 调用**
+  `startRegistration()` 和 `startAuthentication()` 自动处理 Base64URL ↔ ArrayBuffer 转换,支持标准 JSON 格式的入参;
+
+- **内置错误标准化**
+  将浏览器原生错误转换为包含 `code` 和 `message` 的 `WebAuthnError` 对象,便于业务层处理;
+
+- **条件媒介支持(Conditional UI / 自动填充)**
+  支持 `useBrowserAutofill` 实现无感登录体验(需页面存在合适的 `<input>` 元素);
+
+- **完整的环境检测**
+  提供 `browserSupportsWebAuthn()`、`platformAuthenticatorIsAvailable()` 等方法,精确判断设备能力;
+
+- **编解码工具集**
+  导出 `bufferToBase64URLString` / `base64URLStringToBuffer` 等工具函数,方便前后端数据交互;
+
+- **可中止的认证流程**
+  通过 `WebAuthnAbortService` 在必要时取消进行中的认证/注册操作;
+
+- **Windows hello 底层调用**
+   Windows下优先调用底层Windows hello 注册/认证(避免环境干扰与安全);
+
+## 包目录结构
+
+随包发布的文件:
+
+```
+@flun/webauthn-browser/
+├── index.js           库入口,聚合导出各模块
+├── index.d.ts         类型声明
+├── dist/index.js      UMD 打包产物,供 <script> 全局引入
+├── methods/           startRegistration / startAuthentication
+├── helpers/           环境检测、错误识别、Base64URL 编解码等工具
+├── types/             DOM 与内部类型定义
+├── package.json       包配置
+├── README.md          本文件
+├── CHANGELOG.md       更新日志
+└── LICENSE            许可
+```
 
 ---
-## 配置
+
+## 安装前准备
 
 ### 允许安装脚本执行
 
@@ -99,187 +112,8 @@ const { startRegistration, startAuthentication } = require('@flun/webauthn-brows
 *** 注意 ES5(不再支持)***
 
 ---
-## 主要功能
 
-- ✅ **简化的 WebAuthn 调用**
-  `startRegistration()` 和 `startAuthentication()` 自动处理 Base64URL ↔ ArrayBuffer 转换,支持标准 JSON 格式的入参;
-
-- ✅ **内置错误标准化**
-  将浏览器原生错误转换为包含 `code` 和 `message` 的 `WebAuthnError` 对象,便于业务层处理;
-
-- ✅ **条件媒介支持(Conditional UI / 自动填充)**
-  支持 `useBrowserAutofill` 实现无感登录体验(需页面存在合适的 `<input>` 元素);
-
-- ✅ **完整的环境检测**
-  提供 `browserSupportsWebAuthn()`、`platformAuthenticatorIsAvailable()` 等方法,精确判断设备能力;
-
-- ✅ **编解码工具集**
-  导出 `bufferToBase64URLString` / `base64URLStringToBuffer` 等工具函数,方便前后端数据交互;
-
-- ✅ **可中止的认证流程**
-  通过 `WebAuthnAbortService` 在必要时取消进行中的认证/注册操作;
-
-- ✅ **Windows hello 底层调用**
-   Windows下优先调用底层Windows hello 注册/认证(避免环境干扰与安全);
----
-
-## 快速开始
-
-以下示例演示了最基本的调用方式,默认与后端使用 JSON 交互;
-
-### 模块方式使用示例
-
-```js
-import { startRegistration, startAuthentication } from '@flun/webauthn-browser';
-
-// 注册
-async function register(username) {
-  const regOptions = await fetch('/api/register/begin', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username })
-  }).then(r => r.json());
-
-  const regResponse = await startRegistration({ optionsJSON: regOptions });
-
-  await fetch('/api/register/complete', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, response: regResponse })
-  });
-}
-
-// 登录
-async function login(username) {
-  const authOptions = await fetch('/api/login/begin', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username })
-  }).then(r => r.json());
-
-  const authResponse = await startAuthentication({ optionsJSON: authOptions }),
-    verifyRes = await fetch('/api/login/complete', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, response: authResponse })
-    });
-  return verifyRes.json();
-}
-```
-
-### 全局方式使用示例
-
-在 HTML 页面中引入 UMD 脚本后,即可通过全局变量 `flunWebAuthnBrowser` 调用所有方法;
-
-```html
-<script src="https://unpkg.com/@flun/webauthn-browser/dist/index.js"></script>
-<script>
-  (async () => {
-    // 1. 首先检测浏览器是否支持 WebAuthn
-    if (!flunWebAuthnBrowser.browserSupportsWebAuthn()) {
-      return alert('您的浏览器不支持 WebAuthn 或 Passkey,请升级或使用其他方式登录;');
-    }
-
-    // ---------- 注册示例 ----------
-    async function handleRegister(username) {
-      const optionsRes = await fetch('/api/register/begin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username })
-      }), options = await optionsRes.json(),
-       response = await flunWebAuthnBrowser.startRegistration({
-        optionsJSON: options
-      }),
-       verifyRes = await fetch('/api/register/complete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, response })
-      }), result = await verifyRes.json();
-
-      console.log('注册结果:', result);
-    }
-
-    // ---------- 登录(认证)示例 ----------
-    async function handleLogin(username) {
-      const optionsRes = await fetch('/api/login/begin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username })
-      }), options = await optionsRes.json(),
-       response = await flunWebAuthnBrowser.startAuthentication({
-        optionsJSON: options
-      });
-
-      const verifyRes = await fetch('/api/login/complete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, response })
-      });
-      const result = await verifyRes.json();
-      if (result.verified) {
-        console.log('登录成功');
-        window.location.href = '/dashboard';
-      } else {
-        alert('登录失败,请重试');
-      }
-    }
-
-    // ---------- 带自动填充(Conditional UI)的登录示例 ----------
-    // 注意:使用自动填充时,页面必须包含类似如下的 input 元素:
-    // <input type="text" name="username" autocomplete="username webauthn" />
-    async function handleAutofillLogin() {
-      if (!(await flunWebAuthnBrowser.browserSupportsWebAuthnAutofill())) {
-        return console.warn('当前浏览器不支持 WebAuthn 自动填充');
-      }
-
-      const optionsRes = await fetch('/api/login/begin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ useAutofill: true })
-      }), options = await optionsRes.json();
-
-      try {
-        const response = await flunWebAuthnBrowser.startAuthentication({
-          optionsJSON: options,
-          useBrowserAutofill: true
-        }),
-         verifyRes = await fetch('/api/login/complete', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ response })
-        }), result = await verifyRes.json();
-
-        if (result.verified) {
-          console.log('自动填充登录成功');
-          window.location.href = '/dashboard';
-        }
-      } catch (error) {
-        console.warn('自动填充登录未完成:', error.message);
-      }
-    }
-
-    // 绑定按钮事件示例
-    document.getElementById('register-btn')?.addEventListener('click', () => {
-      const username = document.getElementById('username-input').value;
-      handleRegister(username);
-    });
-
-    document.getElementById('login-btn')?.addEventListener('click', () => {
-      const username = document.getElementById('username-input').value;
-      handleLogin(username);
-    });
-
-    // 自动填充登录通常在页面加载时触发
-    window.addEventListener('load', () => {
-      handleAutofillLogin();
-    });
-  })();
-</script>
-```
-
----
-
-## API 参考
+## 函数方式
 
 ### 核心认证方法
 
@@ -475,41 +309,163 @@ flunWebAuthnBrowser.WebAuthnAbortService.cancelCeremony();
 | `_browserSupportsWebAuthnInternals`         | 内部检测函数的桩对象   |
 | `_browserSupportsWebAuthnAutofillInternals` | 自动填充检测的内部实现 |
 
----
+### 使用示例
 
-## 错误处理
+以下示例演示了最基本的调用方式,默认与后端使用 JSON 交互;
 
-推荐使用 `try...catch` 捕获 `WebAuthnError` 并根据 `code` 进行差异化处理;
+#### 模块方式
 
 ```js
-import { startAuthentication, WebAuthnError } from '@flun/webauthn-browser';
+import { startRegistration, startAuthentication } from '@flun/webauthn-browser';
 
-try {
-  const response = await startAuthentication({ optionsJSON });
-  // 发送 response
-} catch (err) {
-  if (err instanceof WebAuthnError) {
-    switch (err.code) {
-      case 'ERROR_CEREMONY_ABORTED':
-        console.log('用户取消了操作');
-        break;
-      case 'ERROR_INVALID_RP_ID':
-        alert('配置错误:RP ID 无效');
-        break;
-      default:
-        console.error('认证失败', err.message);
-    }
-  } else {
-    // 处理其他非 WebAuthn 错误
-  }
+// 注册
+async function register(username) {
+  const regOptions = await fetch('/api/register/begin', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username })
+  }).then(r => r.json());
+
+  const regResponse = await startRegistration({ optionsJSON: regOptions });
+
+  await fetch('/api/register/complete', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, response: regResponse })
+  });
+}
+
+// 登录
+async function login(username) {
+  const authOptions = await fetch('/api/login/begin', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username })
+  }).then(r => r.json());
+
+  const authResponse = await startAuthentication({ optionsJSON: authOptions }),
+    verifyRes = await fetch('/api/login/complete', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, response: authResponse })
+    });
+  return verifyRes.json();
 }
 ```
 
----
+#### 全局方式
 
-## 前后端集成示例
+在 HTML 页面中引入 UMD 脚本后,即可通过全局变量 `flunWebAuthnBrowser` 调用所有方法;
 
-### 配合 @flun/webauthn-server
+```html
+<script src="https://unpkg.com/@flun/webauthn-browser/dist/index.js"></script>
+<script>
+  (async () => {
+    // 1. 首先检测浏览器是否支持 WebAuthn
+    if (!flunWebAuthnBrowser.browserSupportsWebAuthn()) {
+      return alert('您的浏览器不支持 WebAuthn 或 Passkey,请升级或使用其他方式登录;');
+    }
+
+    // ---------- 注册示例 ----------
+    async function handleRegister(username) {
+      const optionsRes = await fetch('/api/register/begin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username })
+      }), options = await optionsRes.json(),
+       response = await flunWebAuthnBrowser.startRegistration({
+        optionsJSON: options
+      }),
+       verifyRes = await fetch('/api/register/complete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, response })
+      }), result = await verifyRes.json();
+
+      console.log('注册结果:', result);
+    }
+
+    // ---------- 登录(认证)示例 ----------
+    async function handleLogin(username) {
+      const optionsRes = await fetch('/api/login/begin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username })
+      }), options = await optionsRes.json(),
+       response = await flunWebAuthnBrowser.startAuthentication({
+        optionsJSON: options
+      });
+
+      const verifyRes = await fetch('/api/login/complete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, response })
+      });
+      const result = await verifyRes.json();
+      if (result.verified) {
+        console.log('登录成功');
+        window.location.href = '/dashboard';
+      } else {
+        alert('登录失败,请重试');
+      }
+    }
+
+    // ---------- 带自动填充(Conditional UI)的登录示例 ----------
+    // 注意:使用自动填充时,页面必须包含类似如下的 input 元素:
+    // <input type="text" name="username" autocomplete="username webauthn" />
+    async function handleAutofillLogin() {
+      if (!(await flunWebAuthnBrowser.browserSupportsWebAuthnAutofill())) {
+        return console.warn('当前浏览器不支持 WebAuthn 自动填充');
+      }
+
+      const optionsRes = await fetch('/api/login/begin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ useAutofill: true })
+      }), options = await optionsRes.json();
+
+      try {
+        const response = await flunWebAuthnBrowser.startAuthentication({
+          optionsJSON: options,
+          useBrowserAutofill: true
+        }),
+         verifyRes = await fetch('/api/login/complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ response })
+        }), result = await verifyRes.json();
+
+        if (result.verified) {
+          console.log('自动填充登录成功');
+          window.location.href = '/dashboard';
+        }
+      } catch (error) {
+        console.warn('自动填充登录未完成:', error.message);
+      }
+    }
+
+    // 绑定按钮事件示例
+    document.getElementById('register-btn')?.addEventListener('click', () => {
+      const username = document.getElementById('username-input').value;
+      handleRegister(username);
+    });
+
+    document.getElementById('login-btn')?.addEventListener('click', () => {
+      const username = document.getElementById('username-input').value;
+      handleLogin(username);
+    });
+
+    // 自动填充登录通常在页面加载时触发
+    window.addEventListener('load', () => {
+      handleAutofillLogin();
+    });
+  })();
+</script>
+```
+
+### 集成示例
+
+#### 配合 @flun/webauthn-server
 
 以下是一个完整的最小化集成示例,前端使用本库,
 后端使用 [`@flun/webauthn-server`](https://www.npmjs.com/package/@flun/webauthn-server);
@@ -593,6 +549,35 @@ app.post('/api/register/complete', async (req, res) => {
 
 // 认证接口类似...
 ```
+---
+
+## 常见问题
+
+推荐使用 `try...catch` 捕获 `WebAuthnError` 并根据 `code` 进行差异化处理;
+
+```js
+import { startAuthentication, WebAuthnError } from '@flun/webauthn-browser';
+
+try {
+  const response = await startAuthentication({ optionsJSON });
+  // 发送 response
+} catch (err) {
+  if (err instanceof WebAuthnError) {
+    switch (err.code) {
+      case 'ERROR_CEREMONY_ABORTED':
+        console.log('用户取消了操作');
+        break;
+      case 'ERROR_INVALID_RP_ID':
+        alert('配置错误:RP ID 无效');
+        break;
+      default:
+        console.error('认证失败', err.message);
+    }
+  } else {
+    // 处理其他非 WebAuthn 错误
+  }
+}
+```
 
 ---
 
@@ -602,9 +587,12 @@ ISC © [flun](https://github.com/OpenFlun)
 
 ---
 
-## 相关链接
+## 贡献
 
 - [GitHub 仓库](https://github.com/OpenFlun/webauthn-browser)
 - [npm 包页面](https://www.npmjs.com/package/@flun/webauthn-browser)
 - [配套后端库 @flun/webauthn-server](https://www.npmjs.com/package/@flun/webauthn-server)
 - [W3C WebAuthn 规范](https://w3c.github.io/webauthn/)
+
+[npm-badge]: https://img.shields.io/npm/v/@flun/webauthn-browser?style=for-the-badge&logo=npm
+[npm-link]: https://www.npmjs.com/package/@flun/webauthn-browser
