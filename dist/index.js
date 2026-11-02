@@ -175,9 +175,9 @@
                     if ("NotSupportedError" === e.name) {
                         if (0 === r.pubKeyCredParams.filter((e => "public-key" === e.type)).length)
                             return new WebAuthnError({
-                            message: 'pubKeyCredParams 中没有 type 为 "public-key" 的条目',
-                            code: "ERROR_MALFORMED_PUBKEYCREDPARAMS", cause: e
-                        });
+                                message: 'pubKeyCredParams 中没有 type 为 "public-key" 的条目',
+                                code: "ERROR_MALFORMED_PUBKEYCREDPARAMS", cause: e
+                            });
                         return new WebAuthnError({
                             message: "没有可用的验证器支持指定的任何 pubKeyCredParams 算法",
                             code: "ERROR_AUTHENTICATOR_NO_SUPPORTED_PUBKEYCREDPARAMS_ALG", cause: e
