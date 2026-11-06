@@ -6,7 +6,7 @@
 ## 简介
 
 **@flun/webauthn-browser** 是一个专为浏览器环境设计的 WebAuthn(含 Passkeys)前端工具库,
-基于 [@simplewebauthn/browser](https://simplewebauthn.dev/) 核心逻辑重构并增强,它封装了 `navigator.credentials` API 
+基于 [@simplewebauthn/browser](https://simplewebauthn.dev/) 核心逻辑重构并增强,它封装了 `navigator.credentials` API
 的复杂细节,提供简洁的 Promise 风格接口,并内置了丰富的错误处理与 Base64URL 编解码工具,
 并且新增在Windows下优先调用底层Windows hello 注册/认证(避免环境干扰与安全);
 
@@ -61,7 +61,7 @@
 
 ### 允许安装脚本执行
 
-本包在安装时可能触发某些依赖包的自动脚本(如 `postinstall` 等);如果你的 npm 全局配置或项目配置禁止了脚本执行(例如设置了 
+本包在安装时可能触发某些依赖包的自动脚本(如 `postinstall` 等);如果你的 npm 全局配置或项目配置禁止了脚本执行(例如设置了
 `ignore-scripts=true`),可能会导致安装不完整或运行时异常;
 
 推荐在项目根目录的 `package.json` 中添加 `allowScripts` 字段,显式放行本包及其依赖的脚本:
@@ -121,10 +121,10 @@ const { startRegistration, startAuthentication } = require('@flun/webauthn-brows
 
 发起 WebAuthn 注册流程,创建新凭证;
 **参数**
-| 字段名            | 类型      | 默认值  | 描述                                                           |
-| ----------------- | --------- | ------- | -------------------------------------------------------------- |
-| `optionsJSON`     | `object`  | 必填    | 由服务端调用 `generateRegistrationOptions()` 生成的 JSON 对象  |
-| `useAutoRegister` | `boolean` | `false` | 是否启用条件媒介自动注册(实验性,需浏览器支持 Conditional UI) |
+| 字段名            | 类型      | 默认值  | 描述                                                          |
+| ----------------- | --------- | ------- | ------------------------------------------------------------- |
+| `optionsJSON`     | `object`  | 必填    | 由服务端调用 `generateRegistrationOptions()` 生成的 JSON 对象 |
+| `useAutoRegister` | `boolean` | `false` | 是否启用条件媒介自动注册(实验性,需浏览器支持 Conditional UI)  |
 
 **返回值** `Promise<RegistrationResponseJSON>`
 
@@ -266,23 +266,23 @@ const { bufferToBase64URLString, base64URLStringToBuffer } = flunWebAuthnBrowser
 
 **属性**
 
-| 属性    | 类型     | 描述                         |
-| ------- | -------- | ---------------------------- |
+| 属性    | 类型     | 描述                       |
+| ------- | -------- | -------------------------- |
 | `name`  | `string` | 错误名称(通常为原始错误名) |
 | `code`  | `string` | 标准化的错误码(见下方表格) |
-| `cause` | `Error`  | 浏览器抛出的原始错误对象     |
+| `cause` | `Error`  | 浏览器抛出的原始错误对象   |
 
 **常见错误码**
 
-| 错误码                                                        | 描述                                             |
-| ------------------------------------------------------------- | ------------------------------------------------ |
+| 错误码                                                        | 描述                                           |
+| ------------------------------------------------------------- | ---------------------------------------------- |
 | `ERROR_CEREMONY_ABORTED`                                      | 认证/注册流程被中止(如调用 `cancelCeremony()`) |
-| `ERROR_INVALID_DOMAIN`                                        | 当前域名无效                                     |
-| `ERROR_INVALID_RP_ID`                                         | RP ID 与当前域名不匹配                           |
-| `ERROR_AUTHENTICATOR_GENERAL_ERROR`                           | 认证器通用错误                                   |
+| `ERROR_INVALID_DOMAIN`                                        | 当前域名无效                                   |
+| `ERROR_INVALID_RP_ID`                                         | RP ID 与当前域名不匹配                         |
+| `ERROR_AUTHENTICATOR_GENERAL_ERROR`                           | 认证器通用错误                                 |
 | `ERROR_AUTHENTICATOR_PREVIOUSLY_REGISTERED`                   | 认证器已被注册(注册时)                         |
-| `ERROR_AUTHENTICATOR_MISSING_DISCOVERABLE_CREDENTIAL_SUPPORT` | 需要可发现凭证但认证器不支持                     |
-| `ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY`                        | 透传错误,需查看 `cause` 属性                     |
+| `ERROR_AUTHENTICATOR_MISSING_DISCOVERABLE_CREDENTIAL_SUPPORT` | 需要可发现凭证但认证器不支持                   |
+| `ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY`                        | 透传错误,需查看 `cause` 属性                   |
 
 #### WebAuthnAbortService
 
@@ -590,6 +590,7 @@ ISC © [flun](https://github.com/OpenFlun)
 ## 贡献
 
 - [GitHub 仓库](https://github.com/OpenFlun/webauthn-browser)
+- [gitee 仓库](https://gitee.com/OpenFlun/webauthn-browser)
 - [npm 包页面](https://www.npmjs.com/package/@flun/webauthn-browser)
 - [配套后端库 @flun/webauthn-server](https://www.npmjs.com/package/@flun/webauthn-server)
 - [W3C WebAuthn 规范](https://w3c.github.io/webauthn/)

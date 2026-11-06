@@ -36,6 +36,10 @@
     "type": "git",
     "url": "git+https://github.com/OpenFlun/webauthn-browser.git"
   },
+  "gitee": {
+    "type": "git",
+    "url": "git+https://gitee.com/OpenFlun/webauthn-browser.git"
+  },
   "homepage": "https://github.com/OpenFlun/webauthn-browser#readme",
   "bugs": {
     "url": "https://github.com/OpenFlun/webauthn-browser/issues"
