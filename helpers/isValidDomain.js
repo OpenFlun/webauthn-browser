@@ -11,9 +11,8 @@
  */
 const isValidDomain = hostname => {
     const domainRe = /^((xn--[a-z0-9-]+|[a-z0-9]+(-[a-z0-9]+)*)\.)+([a-z]{2,}|xn--[a-z0-9-]+)$/i;
-    return (
-        // 将 localhost 视为有效,因为它在安全上下文方面是没问题的,支持 punycode (ACE) 或 ASCII 标签和域名
-        hostname === 'localhost' || domainRe.test(hostname));
+    // 将 localhost 视为有效,因为它在安全上下文方面是没问题的,支持 punycode (ACE) 或 ASCII 标签和域名
+    return (hostname === 'localhost' || domainRe.test(hostname));
 }
 
 export { isValidDomain };

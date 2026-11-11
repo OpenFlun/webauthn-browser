@@ -8,5 +8,5 @@ export * from './isValidDomain.js';
 export * from './platformAuthenticatorIsAvailable.js';
 export * from './toAuthenticatorAttachment.js';
 export * from './toPublicKeyCredentialDescriptor.js';
-export * from './WebAuthnAbortService.js';
-export * from './WebAuthnError.js';
+export * from './webAuthnAbortService.js';
+export * from './webAuthnError.js';

@@ -1,7 +1,7 @@
 import {
-    bufferToBase64URLString, base64URLStringToBuffer, browserSupportsWebAuthn, browserSupportsWebAuthnAutofill,
-    isWindows, extractBase64Id, normalizeOptions, identifyAuthenticationError, toAuthenticatorAttachment,
-    toPublicKeyCredentialDescriptor, WebAuthnAbortService
+    isWindows, WebAuthnAbortService, base64URLStringToBuffer, browserSupportsWebAuthn, browserSupportsWebAuthnAutofill,
+    bufferToBase64URLString, extractBase64Id, identifyAuthenticationError, normalizeOptions,
+    toAuthenticatorAttachment, toPublicKeyCredentialDescriptor
 } from '../helpers/index.js';
 
 /**
@@ -29,7 +29,7 @@ import {
  *   native?: boolean  // 当在 Windows 下启用原生流程时返回 true
  * }>}
  */
-const startAuthentication = async (options) => {
+const startAuthentication = async options => {
     const normalized = normalizeOptions(options);
     if (!normalized) throw new Error('startAuthentication 需要传入包含 optionsJSON 或 challenge 的对象');
     options = normalized;

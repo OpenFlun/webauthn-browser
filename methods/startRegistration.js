@@ -1,7 +1,6 @@
 import {
-    bufferToBase64URLString, base64URLStringToBuffer, browserSupportsWebAuthn, isWindows, extractBase64Id,
-    normalizeOptions,
-    identifyRegistrationError, toAuthenticatorAttachment, toPublicKeyCredentialDescriptor, WebAuthnAbortService
+    isWindows, WebAuthnAbortService, base64URLStringToBuffer, browserSupportsWebAuthn, bufferToBase64URLString,
+    extractBase64Id, identifyRegistrationError, normalizeOptions, toAuthenticatorAttachment, toPublicKeyCredentialDescriptor
 } from '../helpers/index.js';
 
 /**
@@ -40,7 +39,7 @@ const warnOnBrokenImplementation = (methodName, cause) => {
  *   native?: boolean  // 当在 Windows 下启用原生流程时返回 true
  * }>}
  */
-const startRegistration = async (options) => {
+const startRegistration = async options => {
     // 规范化传入的参数,兼容旧的调用方式
     const normalized = normalizeOptions(options);
     if (!normalized) throw new Error('startRegistration 需要传入包含 optionsJSON 或 challenge 的对象');
@@ -117,8 +116,7 @@ const startRegistration = async (options) => {
     }
 
     return {
-        id,
-        rawId: bufferToBase64URLString(rawId),
+        id, rawId: bufferToBase64URLString(rawId),
         response: {
             attestationObject: bufferToBase64URLString(response.attestationObject),
             clientDataJSON: bufferToBase64URLString(response.clientDataJSON),
@@ -126,8 +124,7 @@ const startRegistration = async (options) => {
             publicKeyAlgorithm: responsePublicKeyAlgorithm,
             publicKey: responsePublicKey,
             authenticatorData: responseAuthenticatorData,
-        },
-        type,
+        }, type,
         clientExtensionResults: credential.getClientExtensionResults(),
         authenticatorAttachment: toAuthenticatorAttachment(credential.authenticatorAttachment)
     };

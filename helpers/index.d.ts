@@ -46,7 +46,7 @@ declare module './browserSupportsWebAuthn.js' {
  * const _browserSupportsWebAuthnAutofillInternals={}; // 测试期间模拟返回值;
  * browserSupportsWebAuthnAutofill();                  // 判断浏览器是否支持条件式UI;
  * ```
- * >查看定义:@see {@link  _browserSupportsWebAuthnAutofillInternals}、{@link browserSupportsWebAuthnAutofill}
+ * >查看定义:@see {@link _browserSupportsWebAuthnAutofillInternals}、{@link browserSupportsWebAuthnAutofill}
  */
 declare module './browserSupportsWebAuthnAutofill.js' {
     export * from './browserSupportsWebAuthnAutofill.js';
@@ -178,24 +178,23 @@ declare module './webAuthnError.js' {
  * type WebAuthnErrorCode;
  *
  * // 常量
- * const _browserSupportsWebAuthnInternals={};         // 测试期间对返回值进行桩(stub)处理
  * const _browserSupportsWebAuthnAutofillInternals={}; // 测试期间模拟返回值;
+ * const _browserSupportsWebAuthnInternals={};         // 测试期间对返回值进行桩(stub)处理
  * const isWindows=();                                 // 当前操作系统是否为 Windows
  * const WebAuthnAbortService = new BaseWebAuthnAbortService();
  * // 服务单例,用于确保同一时间只有一个 WebAuthn 仪式处于活动状态;
  *
  * // 函数
  * base64URLStringToBuffer();                          // 将 Base64URL 编码的字符串转换为 Array Buffer;
- * bufferToBase64URLString();                          // 将给定的数组缓冲区转换为 Base64URL 编码的字符串;
  * browserSupportsWebAuthn();                          // 判断当前浏览器是否支持 WebAuthn
  * browserSupportsWebAuthnAutofill();                  // 判断浏览器是否支持条件式UI;
- * isWindows();                                        // 检测当前操作系统是否为 Windows
+ * bufferToBase64URLString();                          // 将给定的数组缓冲区转换为 Base64URL 编码的字符串;
  * extractBase64Id();
  * // 从包含凭证 ID 的对象中提取 base64url 格式的 ID 字符串 支持多种 ID 表示形式
- * normalizeOptions();                                 // 规范化传入的 options 对象,兼容旧调用方式
  * identifyAuthenticationError();                      // 尝试推断调用 `navigator.credentials.get()` 后引发错误的原因;
  * identifyRegistrationError();                        // 尝试推断调用 `navigator.credentials.create()` 后引发错误的原因;
  * isValidDomain();                                    // 判断主机名是否符合验证规范;
+ * normalizeOptions();                                 // 规范化传入的 options 对象,兼容旧调用方式
  * platformAuthenticatorIsAvailable();                 // 判断浏览器是否能够与内置身份验证器通信;
  * toAuthenticatorAttachment();                        // 尝试将 `string` 值强制转换为已知的 `AuthenticatorAttachment` 类型
  * toPublicKeyCredentialDescriptor();
@@ -206,11 +205,11 @@ declare module './webAuthnError.js' {
  * ```
  * >查看定义:@see
  * - 类型 {@link WebAuthnErrorCode}
- * - 常量 {@link _browserSupportsWebAuthnInternals}、{@link _browserSupportsWebAuthnAutofillInternals}、
- * {@link WebAuthnAbortService}、{@link isWindows}
- * - 函数 {@link base64URLStringToBuffer}、{@link bufferToBase64URLString}、 {@link browserSupportsWebAuthn}、
- * {@link browserSupportsWebAuthnAutofill}、{@link extractBase64Id}、{@link normalizeOptions}、
- * {@link identifyAuthenticationError}、{@link identifyRegistrationError}、{@link isValidDomain}、
+ * - 常量 {@link _browserSupportsWebAuthnAutofillInternals}、{@link _browserSupportsWebAuthnInternals}、
+ * {@link isWindows}、{@link WebAuthnAbortService}
+ * - 函数 {@link base64URLStringToBuffer}、{@link browserSupportsWebAuthn}、{@link browserSupportsWebAuthnAutofill}、
+ * {@link bufferToBase64URLString}、{@link extractBase64Id}、{@link identifyAuthenticationError}、
+ * {@link identifyRegistrationError}、{@link isValidDomain}、{@link normalizeOptions}、
  * {@link platformAuthenticatorIsAvailable}、{@link toAuthenticatorAttachment}、{@link toPublicKeyCredentialDescriptor}
  * - 类 {@link WebAuthnError}
  */

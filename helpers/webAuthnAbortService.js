@@ -1,5 +1,6 @@
 /**
  * WebAuthn 中止服务的基础类
+ * >查看定义:@see {@link BaseWebAuthnAbortService}
  */
 class BaseWebAuthnAbortService {
     constructor() {
@@ -48,4 +49,4 @@ class BaseWebAuthnAbortService {
  */
 const WebAuthnAbortService = new BaseWebAuthnAbortService();
 
-export { BaseWebAuthnAbortService, WebAuthnAbortService };
+export { WebAuthnAbortService, BaseWebAuthnAbortService };
